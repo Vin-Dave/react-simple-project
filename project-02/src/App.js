@@ -1,25 +1,65 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const MessagePositive = () => {
+	return (
+		<>
+			<p>Masz uprawnienia</p>
+			<p>.</p>
+		</>
+	);
+};
+const MessageNegative = () => {
+	return (
+		<>
+			<p>Nie masz uprawnien</p>
+			<p>.</p>
+		</>
+	);
+};
+
+export default class App extends React.Component {
+	state = {
+		aprove: false,
+		formSubmitted: false,
+	};
+
+	selectHandleClick = () => {
+		this.setState({
+			aprove: !this.state.aprove,
+			formSubmitted: false,
+		});
+	};
+	setMessage = () => {
+		if (this.state.formSubmitted) {
+			return this.state.aprove ? <MessagePositive /> : <MessageNegative />;
+		}
+	};
+
+	handleSubmit = (e) => {
+		e.preventDefault();
+		if (!this.state.formSubmitted) {
+			this.setState({
+				formSubmitted: true,
+			});
+		}
+	};
+	render() {
+		return (
+			<>
+				<h1>Title</h1>
+				<form onSubmit={this.handleSubmit}>
+					<input
+						onChange={this.selectHandleClick}
+						checked={this.state.aprove}
+						type='checkbox'
+						id='age'></input>
+					<label htmlFor='age'>Zaznacz</label>
+					<br />
+					<button>Check</button>
+				</form>
+
+				{this.setMessage()}
+			</>
+		);
+	}
 }
-
-export default App;
