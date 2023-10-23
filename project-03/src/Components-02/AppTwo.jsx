@@ -25,7 +25,7 @@ const data = {
 			id: 4,
 			age: 24,
 			name: "Klaudia",
-			sex: "feame",
+			sex: "female",
 		},
 	],
 };
@@ -33,13 +33,24 @@ const data = {
 export default class AppTwo extends Component {
 	state = {
 		data: data,
+		filter: "all",
 	};
-
+	handleFilterData = (filter) => {
+		this.setState({
+			filter,
+		});
+	};
 	render() {
-        
 		const UserMapList = this.state.data.users.map((user) => (
 			<ListItems key={user.id} name={user.name} sex={user.sex} age={user.age} />
 		));
-		return <ul>{UserMapList}</ul>;
+		return (
+			<div>
+				<button onClick={this.handleFilterData("female")}>
+					Filtruj po płci
+				</button>
+				<ul>{UserMapList}</ul>
+			</div>
+		);
 	}
 }
