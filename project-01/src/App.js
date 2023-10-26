@@ -7,19 +7,21 @@ import ItemLi from "./component/ItemLi";
 export default function App() {
 	const _URL = "https://type.fit/api/quotes";
 	const [step, setStep] = useState(1);
-	const [data, setData] = useState([
-		{ author: "Autor 1", text: "Tekst cytatu 1" },
-	]);
+	const [data, setData] = useState([]);
 
 	useEffect(() => {
 		fetch(_URL)
 			.then((response) => response.json())
+
 			.then((data) => {
-				const shuffledData = data.sort(() => 0.5 - Math.random());
-				const selectedData = shuffledData.slice(0, 3);
-				setData(selectedData);
-				console.log(selectedData);
-			});
+				if (data.length > 0) {
+					const shuffledData = data.sort(() => 0.5 - Math.random());
+					const selectedData = shuffledData.slice(0, 3);
+					setData(selectedData);
+					console.log(selectedData);
+				}
+			})
+			.catch((e) => console.log(e));
 	}, [step]);
 
 	const handleClick = (type) => {
@@ -34,6 +36,13 @@ export default function App() {
 	const handleChangeStep = (id) => {
 		setStep(id);
 	};
+
+	const checkData =
+		data.length > 0 ? (
+			<ItemLi data={data} />
+		) : (
+			<p className='message'>Brak połaczenia z API</p>
+		);
 	return (
 		<>
 			<div className='steps'>
@@ -53,7 +62,7 @@ export default function App() {
 					<Button click={handleClick} title={"Prev"} type='prev' />
 					<Button click={handleClick} title={"Next"} type='next' />
 				</div>
-				<ItemLi data={data} />
+				{checkData}
 			</div>
 		</>
 	);
