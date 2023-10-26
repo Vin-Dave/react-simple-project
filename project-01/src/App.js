@@ -1,56 +1,59 @@
 import React, { useEffect, useState } from "react";
-
-const messages = [
-	"Learn React ⚛️",
-	"Apply for jobs 💼",
-	"Invest your new income 🤑",
-];
+import Button from "./component/Button";
+import TopPanel from "./component/TopPanel";
+import ResultPanel from "./component/ResultPanel";
+import messages from "./component/_MESSAGES";
 
 export default function App() {
 	const _URL = "https://type.fit/api/quotes";
 	const [step, setStep] = useState(1);
-	const [data, setData] = useState([]);
+	const [data, setData] = useState([
+		{ author: "Autor 1", text: "Tekst cytatu 1" },
+	]);
 
 	useEffect(() => {
 		fetch(_URL)
 			.then((response) => response.json())
 			.then((data) => {
-				const temp = data.slice(0, 5);
-				setData(temp);
+				const shuffledData = data.sort(() => 0.5 - Math.random());
+				const selectedData = shuffledData.slice(0, 3);
+				setData(selectedData);
+				console.log(selectedData);
 			});
-	}, []);
+	}, [step]);
 
-	const handleClickPrev = () => {
-		if (step > 0) setStep(step - 1);
+	const handleClick = (type) => {
+		if (type === "prev") {
+			if (step > 0) setStep(step - 1);
+		} else if (type === "next") {
+			if (step < 3) setStep(step + 1);
+		}
 	};
-	const handleClickNext = () => {
-		if (step < 2) setStep(step + 1);
-	};
+	console.log(step);
 
+	const handleChangeStep = (id) => {
+		setStep(id);
+	};
 	return (
 		<>
-			<ItemLi data={data} />
 			<div className='steps'>
 				<div className='numbers'>
-					<div className={step >= 0 ? "active" : ""}>1</div>
-					<div className={step >= 1 ? "active" : ""}>2</div>
-					<div className={step >= 2 ? "active" : ""}>3</div>
+					{messages.map((element) => (
+						<TopPanel
+							step={step}
+							key={element.id}
+							value={element}
+							click={() => handleChangeStep(element.id)}
+						/>
+					))}
 				</div>
-
-				<p className='message'>{messages[step]}</p>
+				<ResultPanel step={step} data={messages} />
 
 				<div className='buttons'>
-					<button
-						onClick={handleClickPrev}
-						style={{ backgroundColor: "#7950f0", color: "#fff" }}>
-						Prev
-					</button>
-					<button
-						onClick={handleClickNext}
-						style={{ backgroundColor: "#7950f0", color: "#fff" }}>
-						Next
-					</button>
+					<Button click={handleClick} title={"Prev"} type='prev' />
+					<Button click={handleClick} title={"Next"} type='next' />
 				</div>
+				<ItemLi data={data} />
 			</div>
 		</>
 	);
