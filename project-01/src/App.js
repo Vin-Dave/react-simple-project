@@ -3,7 +3,7 @@ import Button from "./component/Button";
 import TopPanel from "./component/TopPanel";
 import ResultPanel from "./component/ResultPanel";
 import messages from "./component/_MESSAGES";
-
+import ItemLi from "./component/ItemLi";
 export default function App() {
 	const _URL = "https://type.fit/api/quotes";
 	const [step, setStep] = useState(1);
@@ -58,18 +58,3 @@ export default function App() {
 		</>
 	);
 }
-
-const ItemLi = ({ data }) => {
-	return (
-		<ul>
-			{data.map((element) => (
-				<li key={element.text}>
-					<h2>{element.author}</h2>
-					<span>{element.text}</span>
-				</li>
-			))}
-		</ul>
-	);
-
-	console.log(data);
-};
