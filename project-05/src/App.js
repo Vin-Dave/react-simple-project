@@ -9,7 +9,6 @@ import { initialItems } from "./components/_DATA";
 
 function App() {
   const [data, setData] = useState(initialItems);
-  const [checkTask, setCheckTask] = useState(true);
 
   const handleAddTask = (task) => {
     setData((item) => (item = [...data, task]));
@@ -19,19 +18,11 @@ function App() {
     setData((item) => item.filter((item) => item.id !== id));
   };
 
-  const handleChangeBox = () => {
-    setCheckTask((s) => (s = !s));
-  };
   return (
     <div className="app">
       <Logo />
       <Form addTask={handleAddTask} data={data} />
-      <PackingList
-        deleteTask={handleDeleteTask}
-        data={data}
-        changeBox={handleChangeBox}
-        checkTask={checkTask}
-      />
+      <PackingList deleteTask={handleDeleteTask} data={data} />
       <Stats />
     </div>
   );
