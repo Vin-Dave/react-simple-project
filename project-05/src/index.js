@@ -67,9 +67,9 @@ import Appt from "./newTast/Appt";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-	<React.StrictMode>
-		{/* <App /> */}
-		<Appt />
-		{/* <Apps /> */}
-	</React.StrictMode>
+  <React.StrictMode>
+    <App />
+    {/* <Appt /> */}
+    {/* <Apps /> */}
+  </React.StrictMode>
 );
