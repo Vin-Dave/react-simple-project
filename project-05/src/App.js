@@ -22,6 +22,11 @@ function App() {
     );
   };
 
+  const handleClearData = () => {
+    const confirmedAlert = window.confirm("Are you sure?");
+
+    confirmedAlert && setData((prev) => (prev = []));
+  };
   function handlePackedTask(id) {
     setData((prevData) =>
       prevData.map((element) =>
@@ -37,6 +42,7 @@ function App() {
         deleteTask={handleDeleteTask}
         data={data}
         packedTask={handlePackedTask}
+        clear={handleClearData}
       />
       <Stats data={data} />
     </div>
