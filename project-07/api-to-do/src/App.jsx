@@ -1,79 +1,53 @@
-import { useState, useEffect } from "react";
 import "./App.css";
-import Modal from "./modals/Modals";
-import Loading from "./Loading/Loading";
-export default function App() {
-	const [user, setUser] = useState({});
-	const [username, setUsername] = useState("");
-	const [error, setError] = useState(null);
-	const [isLoading, setIsLoading] = useState(true);
-	useEffect(() => {
-		fetch("https://jsonplaceholder.typicode.com/users/1")
-			.then((res) => res.json())
-			.then((res) => {
-				setUser(res);
-				setIsLoading(false);
-			})
-			.catch((e) => {
-				setError(e.message);
-				setTimeout(() => {
-					setError(null);
-				}, 2000);
-			});
-	}, []);
+import { useState } from "react";
 
-	function handleSubmit(e) {
-		e.preventDefault();
+function App() {
+	const [tasks, setTasks] = useState([]);
+	const [title, setTitle] = useState("");
+	const [description, setDescription] = useState("");
 
-		fetch("https://jsonplaceholder.typicode.com/users/1", {
-			method: "PATCH",
-			body: JSON.stringify({
-				username,
-			}),
-			headers: {
-				"Content-type": "application/json; charset=UTF-8",
-			},
-		})
-			.then((res) => {
-				if (res.ok) return res.json();
-				else {
-					throw Error("Błąd");
-				}
-			})
-			.then((user) => {
-				setUser(user);
-				setUsername("");
-			})
-			.catch((e) => {
-				setError(e.message);
-				setTimeout(() => {
-					setError(null);
-				}, 2000);
-			});
-	}
+	const addTask = () => {
+		if (title && description) {
+			const newTask = { id: Date.now(), title, description };
+			setTasks([...tasks, newTask]);
+			setTitle("");
+			setDescription("");
+		}
+	};
+
+	const removeTask = (id) => {
+		const updatedTasks = tasks.filter((task) => task.id !== id);
+		setTasks(updatedTasks);
+	};
 
 	return (
-		<>
-			{error && <Modal error={error} />}
-
-			{isLoading ? (
-				<Loading />
-			) : (
-				<div className='container'>
-					<h1>Dane osobowe </h1>
-					<h2>Username: {user.username}</h2>
-					<h2>Email: {user.email}</h2>
-					<h2>Miasto: {user?.address?.city}</h2>
-					<form onSubmit={handleSubmit}>
-						<input
-							value={username}
-							onChange={(e) => setUsername(e.target.value)}
-							placeholder='Zmień nazwę'
-						/>
-						<button disabled={username.trim().length === 0}>Zapisz</button>
-					</form>
-				</div>
-			)}
-		</>
+		<div className='App'>
+			<h1>API to Do App</h1>
+			<div className='form'>
+				<label>Title:</label>
+				<input
+					type='text'
+					value={title}
+					onChange={(e) => setTitle(e.target.value)}
+				/>
+				<label>Description:</label>
+				<textarea
+					value={description}
+					onChange={(e) => setDescription(e.target.value)}
+				/>
+				<button onClick={addTask}>Add Task</button>
+			</div>
+			<div className='tasks'>
+				{tasks.map((task) => (
+					<div key={task.id} className='task'>
+						<h2>{task.title}</h2>
+						<p>{task.description}</p>
+						<button onClick={() => removeTask(task.id)}>Remove</button>
+					</div>
+				))}
+			</div>
+		</div>
 	);
 }
+
+export default App;
