@@ -5,6 +5,7 @@ function App() {
 	const [tasks, setTasks] = useState([]);
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
+	const [endDate, setEndDate] = useState("");
 
 	const addTask = () => {
 		if (title && description) {
@@ -35,14 +36,37 @@ function App() {
 					value={description}
 					onChange={(e) => setDescription(e.target.value)}
 				/>
+
+				<input
+					type='date'
+					value={endDate}
+					onChange={(e) => setEndDate(e.target.value)}
+				/>
 				<button onClick={addTask}>Add Task</button>
 			</div>
 			<div className='tasks'>
 				{tasks.map((task) => (
 					<div key={task.id} className='task'>
-						<h2>{task.title}</h2>
+						<span className='time-left'>Czas pozostały: 3 dni</span>
+						<button className='edit-btn'>📜</button>
+						<div className='task-header'>
+							<h2>{task.title}</h2>
+						</div>
+
 						<p>{task.description}</p>
-						<button onClick={() => removeTask(task.id)}>Remove</button>
+
+						<div className='task-footer'>
+							<button
+								className='list-space task-btn done'
+								onClick={() => removeTask(task.id)}>
+								Done
+							</button>
+							<button
+								className='task-btn remove'
+								onClick={() => removeTask(task.id)}>
+								Remove
+							</button>
+						</div>
 					</div>
 				))}
 			</div>
