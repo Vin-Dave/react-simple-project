@@ -56,8 +56,9 @@ const NotesList = () => {
 			id: 17,
 		},
 	]);
-	
-	const {folderId} = useParams();
+
+	const { Idlist } = useParams();
+
 	return (
 		<NotesContainer>
 			<Notes>
@@ -67,9 +68,12 @@ const NotesList = () => {
 					<AddNewButton>+</AddNewButton>
 				</TopBar>
 
-				{notes.map((note, idx) => (
-					<ShortNote role='listitem' key={idx} note={note}></ShortNote>
-				))}
+				{notes
+					.filter((note) => note.folderId === Number(Idlist))
+
+					.map((note, idx) => (
+						<ShortNote role='listitem' key={idx} note={note}></ShortNote>
+					))}
 			</Notes>
 			<Note />
 		</NotesContainer>
