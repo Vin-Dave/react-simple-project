@@ -5,20 +5,27 @@ import App from "./App";
 import NotesList from "./components/notes-list/NotesList";
 
 const router = createBrowserRouter([
-	{
-		element: <App />,
-		path: "/",
-		children: [
-			{
-				element: <NotesList />,
-				path: "/note/:Idlist",
-			},
-		],
-	},
+  {
+    element: <App />,
+    path: "/",
+    loader: () => {
+      return fetch("http://localhost:3000/folders");
+    },
+
+    children: [
+      {
+        element: <NotesList />,
+        path: "/note/:Idlist",
+        loader: ({ params }) => {
+          return fetch(`http://localhost:3000/notes?folderId=${params.Idlist}`);
+        },
+      },
+    ],
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<React.StrictMode>
-		<RouterProvider router={router} />
-	</React.StrictMode>
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
 );
