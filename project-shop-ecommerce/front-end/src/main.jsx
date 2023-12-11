@@ -1,20 +1,19 @@
+import "./styles/theme.css";
+import "./styles/globals.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./styles/main.css";
-import "./styles/global.css";
+import { Layout } from "./components/Layout/Layout";
+
 const router = createBrowserRouter([
-  {
-    element: <App />,
-    path: "/",
-  },
+    {
+        path: "/",
+        element: <Layout />,
+    },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router}>
-      <App />
-    </RouterProvider>
-  </React.StrictMode>
+    <React.StrictMode>
+        <RouterProvider router={router}></RouterProvider>
+    </React.StrictMode>
 );
