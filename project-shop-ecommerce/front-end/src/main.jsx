@@ -12,6 +12,9 @@ import { Favourites } from "./views/Favourites/Favourites";
 import { Layout } from "./components/Layout/Layout";
 import { MainPage } from "./views/MainPage/MainPage";
 import { loaderMainPage } from "./api/loaderMainPage";
+import { Products } from "./components/Products/Products";
+import { ProductsList } from "./views/ProductsList/ProductsList";
+import { loaderProductList } from "./api/loaderProductList";
 
 const router = createBrowserRouter([
   {
@@ -27,9 +30,14 @@ const router = createBrowserRouter([
         element: <Favourites />,
       },
       {
-        path: "/:genders",
+        path: "/:genders?",
         element: <MainPage />,
         loader: loaderMainPage,
+      },
+      {
+        path: "/:genders/:subcategory",
+        element: <ProductsList />,
+        loader: loaderProductList,
       },
     ],
   },
