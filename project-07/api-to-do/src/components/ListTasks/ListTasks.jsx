@@ -1,16 +1,8 @@
 import styles from "./ListTasks.module.css";
-import { useState, useEffect } from "react";
-export function ListTasks({ tasks }) {
-	const calculateDaysLeft = (deadlineTimestamp) => {
-		const currentDate = new Date();
-		const deadlineDate = new Date(deadlineTimestamp);
-		const timeDifference = deadlineDate.getTime() - currentDate.getTime();
-		const daysLeft = Math.ceil(timeDifference / (1000 * 3600 * 24));
 
-		return daysLeft;
-	};
+import { calculateDaysLeft } from "../../utils/checkDate";
 
-	console.log(tasks);
+export function ListTasks({ tasks, removeTask, doneTask, editTask }) {
 	return (
 		<div className={styles.tasks}>
 			{tasks.map((task) => (
@@ -19,7 +11,9 @@ export function ListTasks({ tasks }) {
 						className={styles.timeLeft}>{`Czas pozostały: ${calculateDaysLeft(
 						task.id
 					)} dni`}</span>
-					<button className={styles.editBtn}>📜</button>
+					<button onClick={() => editTask(task.id)} className={styles.editBtn}>
+						📜
+					</button>
 					<div className={styles.taskHeader}>
 						<h2>{task.title}</h2>
 					</div>
@@ -30,7 +24,7 @@ export function ListTasks({ tasks }) {
 						<button
 							disabled={task.done}
 							className='list-space task-btn done'
-							onClick={() => removeTask(task.id)}>
+							onClick={() => doneTask(task.id)}>
 							Done
 						</button>
 						<button

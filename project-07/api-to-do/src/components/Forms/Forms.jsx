@@ -1,6 +1,6 @@
 import { Button } from "../Button/Button";
 import styles from "./Forms.module.css";
-
+import { getTodayDate } from "../../utils/checkDate";
 import { useState } from "react";
 
 export function Forms({ addNewTask }) {
@@ -10,10 +10,24 @@ export function Forms({ addNewTask }) {
 
 	const addTask = () => {
 		if (title && description && endDate) {
-			const newTask = { id: endDate, title, description, done: false };
+			const newTask = {
+				id: Number(new Date()),
+				endDate,
+				title,
+				description,
+				done: false,
+			};
 			addNewTask(newTask);
 			setTitle("");
 			setDescription("");
+		}
+	};
+
+	const chceckInputData = (e) => {
+		if (e.target.value >= getTodayDate()) {
+			setEndDate(e.target.value);
+		} else {
+			alert("Can't add a task with a date later than the current date ");
 		}
 	};
 
@@ -33,11 +47,7 @@ export function Forms({ addNewTask }) {
 					onChange={(e) => setDescription(e.target.value)}
 				/>
 
-				<input
-					type='date'
-					value={endDate}
-					onChange={(e) => setEndDate(e.target.value)}
-				/>
+				<input type='date' value={endDate} onChange={chceckInputData} />
 				<Button onClick={addTask}>Add Tasks</Button>
 			</div>
 		</>
