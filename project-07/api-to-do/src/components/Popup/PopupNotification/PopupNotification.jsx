@@ -10,7 +10,7 @@ export const PopupNotification = ({ message, onClose }) => {
     }, 50);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [progress]);
 
   useEffect(() => {
     if (progress === 0) {

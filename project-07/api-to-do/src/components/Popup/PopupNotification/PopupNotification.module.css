@@ -5,20 +5,20 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  background-color: rgba(64, 0, 9, 0.3);
   z-index: 9999;
 }
 
 .popupNotification {
-  background-color: rgba(156, 41, 56, 0.696);
+  color: #fff;
+  background-color: rgba(156, 41, 56, 0.8);
   padding: 10px;
   border: 1px solid #400009;
-
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   cursor: pointer;
+  position: relative;
 }
 
 .popupNotification div {
@@ -31,7 +31,6 @@
 
 .progressBar {
   height: 5px;
-
-  background-color: #400009ff;
+  background-color: #400009;
   transition: width 1s linear;
 }

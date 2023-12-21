@@ -2,14 +2,12 @@ import styles from "./Forms.module.css";
 
 import { Button } from "../Button/Button";
 import { getTodayDate } from "../../utils/checkDate";
-import { PopupNotification } from "../Popup/PopupNotification/PopupNotification";
 import { useState } from "react";
 
-export function Forms({ addNewTask }) {
+export function Forms({ addNewTask, setPopupMessages }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [popupMessages, setPopupMessages] = useState([]);
 
   const addTask = () => {
     const trimmedTitle = title.trim();
@@ -47,12 +45,6 @@ export function Forms({ addNewTask }) {
     }
   };
 
-  const handleClosePopup = (index) => {
-    setPopupMessages((prevMessages) =>
-      prevMessages.filter((_, i) => i !== index)
-    );
-  };
-
   return (
     <>
       <h1>API to Do App</h1>
@@ -71,13 +63,6 @@ export function Forms({ addNewTask }) {
 
         <input type="date" value={endDate} onChange={chceckInputData} />
         <Button onClick={addTask}>Add Tasks</Button>
-        {popupMessages.map((message, index) => (
-          <PopupNotification
-            key={index}
-            message={message}
-            onClose={() => handleClosePopup(index)}
-          />
-        ))}
       </div>
     </>
   );
