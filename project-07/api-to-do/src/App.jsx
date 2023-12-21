@@ -2,7 +2,7 @@ import "./App.css";
 import { useState } from "react";
 import { Forms } from "./components/Forms/Forms";
 import { ListTasks } from "./components/ListTasks/ListTasks";
-import { Popup } from "./components/Popup/Popup";
+import { Popup } from "./components/Popup/EditPopup/Popup";
 function App() {
   const [tasks, setTasks] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
