@@ -1,5 +1,3 @@
-// TipsSection.jsx
-
 import React from "react";
 
 const TipsSection = () => {
