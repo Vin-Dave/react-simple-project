@@ -8,7 +8,7 @@ const ReviewsSection = () => {
           Product Reviews
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mx-6">
           {/* Review Card 1 */}
           <div className="bg-white p-6 rounded-md shadow-md transition-transform transform hover:scale-105">
             <img
