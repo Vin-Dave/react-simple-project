@@ -4,19 +4,19 @@ import { Panel } from "./components/Panel/Panel";
 import { Button } from "./components/Button/Button";
 
 function App() {
-    const [isPanelShown, setIsPanelShown] = useState(true);
-    return (
-        <main className={styles.main}>
-            <Button
-                onClick={() => {
-                    setIsPanelShown((prevIsPanelShown) => !prevIsPanelShown);
-                }}
-            >
-                {isPanelShown ? "Schowaj panel" : "Pokaż panel"}
-            </Button>
-            {isPanelShown && <Panel />}
-        </main>
-    );
+  const [isFormShown, setIsFormShown] = useState(true);
+
+  function handleShowPanel() {
+    setIsFormShown((s) => !s);
+  }
+  return (
+    <main className={styles.main}>
+      <Button onClick={handleShowPanel}>
+        {isFormShown ? "Schowaj Panel" : "Pokaż Panel"}
+      </Button>
+      {isFormShown ? <Panel /> : null}
+    </main>
+  );
 }
 
 export default App;

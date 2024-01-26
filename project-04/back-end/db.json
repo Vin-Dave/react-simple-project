@@ -1,40 +1,121 @@
 {
   "words": [
     {
+      "id": 1,
       "word": "kot",
       "translation": "cat",
+      "category": "noun"
+    },
+    {
+      "id": 2,
+      "word": "pies",
+      "translation": "dog",
+      "category": "noun"
+    },
+    {
+      "id": 3,
+      "word": "skakać",
+      "translation": "jump",
+      "category": "verb"
+    },
+    {
+      "word": "e",
+      "translation": "e",
+      "category": "noun",
+      "id": 4
+    },
+    {
+      "word": "c",
+      "translation": "c",
+      "category": "noun",
+      "id": 5
+    },
+    {
+      "word": "12",
+      "translation": "12",
+      "category": "noun",
+      "id": 6
+    },
+    {
+      "word": "12",
+      "translation": "123321",
       "category": "noun",
       "id": 7
     },
     {
-      "word": "mówić",
-      "translation": "speak",
-      "category": "verb",
+      "word": "132",
+      "translation": "321",
+      "category": "noun",
       "id": 8
     },
     {
-      "word": "dog",
-      "translation": "pies",
+      "word": "213",
+      "translation": "231",
       "category": "noun",
       "id": 9
     },
     {
-      "word": "biurko",
-      "translation": "desk",
+      "word": "321",
+      "translation": "321",
       "category": "noun",
       "id": 10
     },
     {
-      "word": "skakać",
-      "translation": "jump",
-      "category": "verb",
+      "word": "321",
+      "translation": "231",
+      "category": "noun",
       "id": 11
     },
     {
-      "word": "biegać",
-      "translation": "run",
-      "category": "verb",
+      "word": "123",
+      "translation": "213",
+      "category": "noun",
       "id": 12
+    },
+    {
+      "word": "123",
+      "translation": "123",
+      "category": "noun",
+      "id": 13
+    },
+    {
+      "word": "123",
+      "translation": "213",
+      "category": "noun",
+      "id": 14
+    },
+    {
+      "word": "321",
+      "translation": "q213",
+      "category": "noun",
+      "id": 15
+    },
+    {
+      "word": "12",
+      "translation": "12",
+      "category": "noun",
+      "id": 16
+    },
+    {
+      "word": "321",
+      "translation": "q213",
+      "category": "noun",
+      "id": 17
+    },
+    {
+      "word": "132",
+      "translation": "q321",
+      "category": "noun",
+      "id": 18
+    },
+    {
+      "word": "op",
+      "translation": "op",
+      "category": "noun",
+      "id": 19
+    },
+    {
+      "id": 20
     }
   ]
 }

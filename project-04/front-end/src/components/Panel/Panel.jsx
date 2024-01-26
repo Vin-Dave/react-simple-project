@@ -1,115 +1,49 @@
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
+import { Button } from "../Button/Button";
 import { List } from "../List/List";
-import { Form } from "../Form/Form";
-import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
-import { FilterButton } from "../FilterButton/FilterButton";
-import { Info } from "../Info/Info";
 import styles from "./Panel.module.css";
-import { getCategoryInfo } from "../../utils/getCategoryInfo";
-
-const url = "http://localhost:3000/words";
+import { Form } from "../Form/Form";
 
 export function Panel() {
-    const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+  const _URL = "http://localhost:3000/words";
 
-    useEffect(() => {
-        let isCanceled = false;
-        const params = selectedCategory ? `?category=${selectedCategory}` : "";
-        fetch(`${url}${params}`)
-            .then((res) => res.json())
-            .then((res) => {
-                if (!isCanceled) {
-                    setData(res);
-                    setIsLoading(false);
-                }
-            });
+  const [data, setData] = useState([]);
 
-        return () => {
-            isCanceled = true;
-        };
-    }, [selectedCategory]);
+  useEffect(() => {
+    fetch(_URL)
+      .then((res) => {
+        console.log(res);
+        if (res.ok) return res.json();
 
-    const categoryInfo = useMemo(
-        () => getCategoryInfo(selectedCategory),
-        [selectedCategory]
-    );
+        throw new Error("Błąd ładowania danych");
+      })
+      .then((data) => setData(data))
+      .catch((e) => console.log(e.message));
+  }, []);
 
-    function handleFormSubmit(formData) {
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-        })
-            .then((res) => res.json())
-            .then((res) => {
-                if (!selectedCategory || selectedCategory === res.category) {
-                    setData((prevData) => [...prevData, res]);
-                }
-            });
-    }
+  function handleAddNewWord(word) {
+    fetch(_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(word),
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
 
-    function handleDeleteItem(id) {
-        fetch(`${url}/${id}`, {
-            method: "DELETE",
-        })
-            .then((res) => {
-                if (res.ok) {
-                    setData((prevData) =>
-                        prevData.filter((item) => item.id !== id)
-                    );
-                } else {
-                    throw new Error("Błąd podczas usuwania!");
-                }
-            })
-            .catch((e) => {
-                setError(e.message);
-                setTimeout(() => {
-                    setError(null);
-                }, 3000);
-            });
-    }
+        throw new Error("Błąd dodawania");
+      })
+      .then((data) => setData((prevData) => [...prevData, data]))
+      .catch((e) => console.log(e.message));
+  }
 
-    function handleFilterClick(category) {
-        setSelectedCategory(category);
-    }
-
-    if (isLoading) {
-        return <p>Ładowanie</p>;
-    }
-
-    return (
-        <>
-            {error && <ErrorMessage>{error}</ErrorMessage>}
-            <section className={styles.section}>
-                <Info>{categoryInfo}</Info>
-                <Form onFormSubmit={handleFormSubmit} />
-                <div className={styles.filters}>
-                    <FilterButton
-                        active={selectedCategory === null}
-                        onClick={() => handleFilterClick(null)}
-                    >
-                        Wszystkie
-                    </FilterButton>
-                    <FilterButton
-                        active={selectedCategory === "noun"}
-                        onClick={() => handleFilterClick("noun")}
-                    >
-                        Rzeczowniki
-                    </FilterButton>
-                    <FilterButton
-                        active={selectedCategory === "verb"}
-                        onClick={() => handleFilterClick("verb")}
-                    >
-                        Czasowniki
-                    </FilterButton>
-                </div>
-                <List data={data} onDeleteItem={handleDeleteItem} />
-            </section>
-        </>
-    );
+  return (
+    <>
+      <section className={styles.section}>
+        <Form onFormSubmit={(word) => handleAddNewWord(word)} />
+        <List data={data}></List>
+      </section>
+    </>
+  );
 }
