@@ -1,66 +1,6 @@
 {
   "words": [
     {
-      "id": 1,
-      "word": "kot",
-      "translation": "cat",
-      "category": "noun"
-    },
-    {
-      "id": 2,
-      "word": "pies",
-      "translation": "dog",
-      "category": "noun"
-    },
-    {
-      "id": 3,
-      "word": "skakać",
-      "translation": "jump",
-      "category": "verb"
-    },
-    {
-      "word": "e",
-      "translation": "e",
-      "category": "noun",
-      "id": 4
-    },
-    {
-      "word": "c",
-      "translation": "c",
-      "category": "noun",
-      "id": 5
-    },
-    {
-      "word": "12",
-      "translation": "12",
-      "category": "noun",
-      "id": 6
-    },
-    {
-      "word": "12",
-      "translation": "123321",
-      "category": "noun",
-      "id": 7
-    },
-    {
-      "word": "132",
-      "translation": "321",
-      "category": "noun",
-      "id": 8
-    },
-    {
-      "word": "213",
-      "translation": "231",
-      "category": "noun",
-      "id": 9
-    },
-    {
-      "word": "321",
-      "translation": "321",
-      "category": "noun",
-      "id": 10
-    },
-    {
       "word": "321",
       "translation": "231",
       "category": "noun",

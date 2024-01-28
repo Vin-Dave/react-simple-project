@@ -8,6 +8,8 @@ export function Panel() {
   const _URL = "http://localhost:3000/words";
 
   const [data, setData] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch(_URL)
@@ -17,7 +19,10 @@ export function Panel() {
 
         throw new Error("Błąd ładowania danych");
       })
-      .then((data) => setData(data))
+      .then((data) => {
+        setData(data);
+        setIsLoading(false);
+      })
       .catch((e) => console.log(e.message));
   }, []);
 
@@ -38,11 +43,26 @@ export function Panel() {
       .catch((e) => console.log(e.message));
   }
 
+  function handleDeleteClick(id) {
+    fetch(`${_URL}/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (res.ok)
+          setData((prevData) => prevData.filter((item) => item.id !== id));
+        else {
+          throw new Error("Błąd usuwania");
+        }
+      })
+      .catch((e) => setErrorMessage(e));
+
+    if (isLoading) return <p>Ładowanie</p>;
+  }
   return (
     <>
       <section className={styles.section}>
         <Form onFormSubmit={(word) => handleAddNewWord(word)} />
-        <List data={data}></List>
+        <List data={data} handleDeleteClick={handleDeleteClick}></List>
       </section>
     </>
   );
