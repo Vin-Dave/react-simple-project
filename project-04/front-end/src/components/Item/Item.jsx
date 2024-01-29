@@ -1,7 +1,11 @@
 import { useState } from "react";
 import styles from "./Item.module.css";
-export function Item({ word, translation, id, handleDeleteClick }) {
+export function Item({ word, translation, id, onDeleteItem }) {
   const [isTranslationShown, setIsTranslationShown] = useState(false);
+
+  function handleDeleteClick() {
+    onDeleteItem(id);
+  }
 
   return (
     <li className={styles.item}>
@@ -19,7 +23,7 @@ export function Item({ word, translation, id, handleDeleteClick }) {
         >
           👁️
         </button>
-        <button onClick={() => handleDeleteClick(id)} className={styles.button}>
+        <button onClick={handleDeleteClick} className={styles.button}>
           ✔️
         </button>
       </div>

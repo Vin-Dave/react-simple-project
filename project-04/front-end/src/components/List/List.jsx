@@ -1,6 +1,6 @@
 import { Item } from "../Item/Item";
 import styles from "./List.module.css";
-export function List({ data, handleDeleteClick }) {
+export function List({ data, onDeleteItem }) {
   return (
     <ul className={styles.list}>
       {data.map(({ id, word, translation }) => (
@@ -9,7 +9,7 @@ export function List({ data, handleDeleteClick }) {
           id={id}
           word={word}
           translation={translation}
-          handleDeleteClick={handleDeleteClick}
+          onDeleteItem={onDeleteItem}
         />
       ))}
     </ul>

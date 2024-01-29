@@ -1,68 +1,113 @@
-import { useEffect, useState } from "react";
-import { Button } from "../Button/Button";
+import { useState, useEffect, useMemo } from "react";
 import { List } from "../List/List";
-import styles from "./Panel.module.css";
 import { Form } from "../Form/Form";
+import { FilterButton } from "../FilterButton/FilterButton";
+import { Info } from "../Info/Info";
+import styles from "./Panel.module.css";
+import { getCategoryInfo } from "../../utils/getCategoryInfo";
 
-export function Panel() {
-  const _URL = "http://localhost:3000/words";
+const url = "http://localhost:3000/words";
 
+export function Panel({ onError }) {
   const [data, setData] = useState([]);
-  const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   useEffect(() => {
-    fetch(_URL)
+    let isCanceled = false;
+    const params = selectedCategory ? `?category=${selectedCategory}` : "";
+    fetch(`${url}${params}`)
       .then((res) => {
-        console.log(res);
-        if (res.ok) return res.json();
+        if (res.ok) {
+          return res.json();
+        }
 
-        throw new Error("Błąd ładowania danych");
+        throw new Error("Błąd ładowania danych!");
       })
-      .then((data) => {
-        setData(data);
-        setIsLoading(false);
+      .then((res) => {
+        ``;
+        if (!isCanceled) {
+          setData(res);
+          setIsLoading(false);
+        }
       })
-      .catch((e) => console.log(e.message));
-  }, []);
+      .catch(onError);
 
-  function handleAddNewWord(word) {
-    fetch(_URL, {
+    return () => {
+      isCanceled = true;
+    };
+  }, [selectedCategory, onError]);
+
+  const categoryInfo = useMemo(
+    () => getCategoryInfo(selectedCategory),
+    [selectedCategory]
+  );
+
+  function handleFormSubmit(formData) {
+    fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(word),
+      body: JSON.stringify(formData),
     })
+      .then((res) => res.json())
       .then((res) => {
-        if (res.ok) return res.json();
-
-        throw new Error("Błąd dodawania");
-      })
-      .then((data) => setData((prevData) => [...prevData, data]))
-      .catch((e) => console.log(e.message));
+        if (!selectedCategory || selectedCategory === res.category) {
+          setData((prevData) => [...prevData, res]);
+        }
+      });
   }
 
-  function handleDeleteClick(id) {
-    fetch(`${_URL}/${id}`, {
+  function handleDeleteItem(id) {
+    fetch(`${url}/${id}`, {
       method: "DELETE",
     })
       .then((res) => {
-        if (res.ok)
+        if (res.ok) {
           setData((prevData) => prevData.filter((item) => item.id !== id));
-        else {
-          throw new Error("Błąd usuwania");
+        } else {
+          throw new Error("Błąd podczas usuwania!");
         }
       })
-      .catch((e) => setErrorMessage(e));
-
-    if (isLoading) return <p>Ładowanie</p>;
+      .catch(onError);
   }
+
+  function handleFilterClick(category) {
+    setSelectedCategory(category);
+  }
+
+  if (isLoading) {
+    return <p>Ładowanie</p>;
+  }
+
   return (
     <>
       <section className={styles.section}>
-        <Form onFormSubmit={(word) => handleAddNewWord(word)} />
-        <List data={data} handleDeleteClick={handleDeleteClick}></List>
+        <Info>{categoryInfo}</Info>
+        <Form onFormSubmit={handleFormSubmit} />
+        <div className={styles.filters}>
+          <FilterButton
+            active={selectedCategory === null}
+            onClick={() => handleFilterClick(null)}
+          >
+            Wszystkie
+          </FilterButton>
+          <FilterButton
+            active={selectedCategory === "noun"}
+            onClick={() => handleFilterClick("noun")}
+          >
+            Rzeczowniki
+          </FilterButton>
+          <FilterButton
+            active={selectedCategory === "verb"}
+            onClick={() => handleFilterClick("verb")}
+          >
+            Czasowniki
+          </FilterButton>
+        </div>
+        <List data={data} onDeleteItem={handleDeleteItem} />
       </section>
     </>
   );

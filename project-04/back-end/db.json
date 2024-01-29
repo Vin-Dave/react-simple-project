@@ -25,30 +25,6 @@
       "id": 14
     },
     {
-      "word": "321",
-      "translation": "q213",
-      "category": "noun",
-      "id": 15
-    },
-    {
-      "word": "12",
-      "translation": "12",
-      "category": "noun",
-      "id": 16
-    },
-    {
-      "word": "321",
-      "translation": "q213",
-      "category": "noun",
-      "id": 17
-    },
-    {
-      "word": "132",
-      "translation": "q321",
-      "category": "noun",
-      "id": 18
-    },
-    {
       "word": "op",
       "translation": "op",
       "category": "noun",
@@ -56,6 +32,12 @@
     },
     {
       "id": 20
+    },
+    {
+      "word": "12",
+      "translation": "12",
+      "category": "noun",
+      "id": 21
     }
   ]
 }
