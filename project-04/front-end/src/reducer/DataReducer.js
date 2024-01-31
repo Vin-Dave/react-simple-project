@@ -1,11 +1,17 @@
-export function DataReducer(data, action) {
+export function DataReducer(state, action) {
   switch (action.type) {
     case "load_data":
-      return [...action.res];
+      return {
+        isLoading: false,
+        data: [...action.res],
+      };
     case "delete_item":
-      return data.filter((item) => item.id !== action.id);
+      return {
+        ...state,
+        data: state.data.filter((item) => item.id !== action.id),
+      };
     case "add_item":
-      return [...data, action.res];
+      return { ...state, data: [...state.data, action.res] };
     default:
       throw new Error("Not supported action!");
   }

@@ -1,31 +1,17 @@
 import { useState, useEffect, useMemo, useReducer } from "react";
+
 import { List } from "../List/List";
 import { Form } from "../Form/Form";
 import { FilterButton } from "../FilterButton/FilterButton";
 import { Info } from "../Info/Info";
+
 import styles from "./Panel.module.css";
+
 import { getCategoryInfo } from "../../utils/getCategoryInfo";
 
-const url = "http://localhost:3000/words";
+import { DataReducer } from "../../reducer/DataReducer";
 
-function DataReducer(state, action) {
-  switch (action.type) {
-    case "load_data":
-      return {
-        isLoading: false,
-        data: [...action.res],
-      };
-    case "delete_item":
-      return {
-        ...state,
-        data: state.data.filter((item) => item.id !== action.id),
-      };
-    case "add_item":
-      return { ...state, data: [...state.data, action.res] };
-    default:
-      throw new Error("Not supported action!");
-  }
-}
+const url = "http://localhost:3000/words";
 
 export function Panel({ onError }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
