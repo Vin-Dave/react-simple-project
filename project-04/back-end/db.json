@@ -1,43 +1,10 @@
 {
   "words": [
     {
-      "word": "321",
-      "translation": "231",
-      "category": "noun",
-      "id": 11
-    },
-    {
-      "word": "123",
-      "translation": "213",
-      "category": "noun",
-      "id": 12
-    },
-    {
-      "word": "123",
-      "translation": "123",
-      "category": "noun",
-      "id": 13
-    },
-    {
-      "word": "123",
-      "translation": "213",
-      "category": "noun",
-      "id": 14
-    },
-    {
-      "word": "op",
-      "translation": "op",
-      "category": "noun",
-      "id": 19
-    },
-    {
-      "id": 20
-    },
-    {
       "word": "12",
       "translation": "12",
       "category": "noun",
-      "id": 21
+      "id": 1
     }
   ]
 }

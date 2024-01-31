@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useReducer } from "react";
 import { List } from "../List/List";
 import { Form } from "../Form/Form";
 import { FilterButton } from "../FilterButton/FilterButton";
@@ -8,11 +8,32 @@ import { getCategoryInfo } from "../../utils/getCategoryInfo";
 
 const url = "http://localhost:3000/words";
 
-export function Panel({ onError }) {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+function DataReducer(state, action) {
+  switch (action.type) {
+    case "load_data":
+      return {
+        isLoading: false,
+        data: [...action.res],
+      };
+    case "delete_item":
+      return {
+        ...state,
+        data: state.data.filter((item) => item.id !== action.id),
+      };
+    case "add_item":
+      return { ...state, data: [...state.data, action.res] };
+    default:
+      throw new Error("Not supported action!");
+  }
+}
 
+export function Panel({ onError }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const [state, dispatch] = useReducer(DataReducer, {
+    data: [],
+    isLoading: true,
+  });
 
   useEffect(() => {
     let isCanceled = false;
@@ -26,10 +47,9 @@ export function Panel({ onError }) {
         throw new Error("Błąd ładowania danych!");
       })
       .then((res) => {
-        ``;
         if (!isCanceled) {
-          setData(res);
-          setIsLoading(false);
+          dispatch({ type: "load_data", res });
+          // setIsLoading(false);
         }
       })
       .catch(onError);
@@ -55,7 +75,7 @@ export function Panel({ onError }) {
       .then((res) => res.json())
       .then((res) => {
         if (!selectedCategory || selectedCategory === res.category) {
-          setData((prevData) => [...prevData, res]);
+          dispatch({ type: "add_item", res });
         }
       });
   }
@@ -66,7 +86,7 @@ export function Panel({ onError }) {
     })
       .then((res) => {
         if (res.ok) {
-          setData((prevData) => prevData.filter((item) => item.id !== id));
+          dispatch({ type: "delete_item", id });
         } else {
           throw new Error("Błąd podczas usuwania!");
         }
@@ -78,7 +98,7 @@ export function Panel({ onError }) {
     setSelectedCategory(category);
   }
 
-  if (isLoading) {
+  if (state.isLoading) {
     return <p>Ładowanie</p>;
   }
 
@@ -107,7 +127,7 @@ export function Panel({ onError }) {
             Czasowniki
           </FilterButton>
         </div>
-        <List data={data} onDeleteItem={handleDeleteItem} />
+        <List data={state.data} onDeleteItem={handleDeleteItem} />
       </section>
     </>
   );
